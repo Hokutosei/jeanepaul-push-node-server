@@ -2,7 +2,12 @@ var app = require('http').createServer();
 var io = require('socket.io').listen(app),
 	fs = require('fs');
 
-app.listen(1337, '127.0.0.1');
+app.listen(1337);
+// assuming io is the Socket.IO server object
+io.configure(function () {
+    io.set("transports", ["xhr-polling"]);
+    io.set("polling duration", 10);
+});
 
 io.sockets.on('connection', function(socket){
 	socket.on('my other event', function(data){
@@ -11,4 +16,5 @@ io.sockets.on('connection', function(socket){
 	});
 	console.log('connected!')
 });
+
 console.log('server running at http://127.0.0.1:1337');
