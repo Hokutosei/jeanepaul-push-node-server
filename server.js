@@ -11,5 +11,4 @@ io.sockets.on('connection', function(socket){
 	});
 	console.log('connected!')
 });
-
 console.log('server running at http://127.0.0.1:1337');
