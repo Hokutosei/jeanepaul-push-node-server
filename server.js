@@ -7,7 +7,7 @@ app.listen(1337, '127.0.0.1');
 io.sockets.on('connection', function(socket){
 	socket.on('my other event', function(data){
 		console.log(data);
-		io.sockets.emit('child_added', {message: data.val()})
+		io.sockets.emit('child_added', data)
 	});
 	console.log('connected!')
 });
