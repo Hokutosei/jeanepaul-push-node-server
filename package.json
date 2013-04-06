@@ -2,7 +2,7 @@
     "name" : "jeanepaul-push-notification-server",
     "version" : "0.0.1",
     "engines" : {
-        "socket.io" : "v0.9",
-        "node.js" : "v0.8.14"
+        "socket.io" : "0.9",
+        "node.js" : "0.8.14"
     }
 }
