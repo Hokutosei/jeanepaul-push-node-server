@@ -1,4 +1,4 @@
-var port=process.env.PORT || 3000;
+var port=process.env.PORT || 3001;
 
 var app = require('http').createServer();
 var io = require('socket.io').listen(app),
@@ -11,10 +11,23 @@ io.configure(function () {
     io.set("polling duration", 10);
 });
 
+var users = {};
 io.sockets.on('connection', function(socket){
+    //socket.emit('who are you');
+    socket.on('checkin', function(incoming){
+        users[incoming.identifier] = socket.id;
+        console.log(users);
+    });
+
+
 	socket.on('my other event', function(data){
 		console.log(data);
-		io.sockets.emit('child_added', data)
+		//io.sockets.emit('child_added', data);
+        //io.sockets.emit('socket', x)
+        var socketid = users[data.receiver];
+        var mydata = data
+        io.sockets.socket(socketid).emit('child_added', mydata);
+        socket.emit('child_added', mydata);
 	});
 	console.log('connected!')
 });
