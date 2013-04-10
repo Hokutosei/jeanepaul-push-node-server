@@ -12,10 +12,12 @@ io.configure(function () {
 });
 
 var users = {};
+var acknowledging_users = [];
 io.sockets.on('connection', function(socket){
     //socket.emit('who are you');
     socket.on('checkin', function(incoming){
         users[incoming.identifier] = socket.id;
+        socket.emit('logged_in_users', users);
         console.log(users);
     });
 
@@ -30,6 +32,21 @@ io.sockets.on('connection', function(socket){
         socket.emit('child_added', mydata);
 	});
 	console.log('connected!')
+
+    // check user if loggedin
+    var delay = 8000;
+    var timer = setTimeout(checkUser, delay);
+    function checkUser() {
+        socket.emit('check user');
+        timer = setTimeout(checkUser, delay);
+    }
+    socket.on('user online', function(data){
+        var msg = 'acknowledge'
+
+        var socketid = users[data.user];
+
+        io.sockets.socket(socketid).emit('acknowledge user', msg)
+    })
 });
 
 console.log('server running at http://127.0.0.1:' + port);
